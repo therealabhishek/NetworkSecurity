@@ -20,7 +20,7 @@ MONGO_DB_URL = os.getenv("MONGO_DB_URL")
 class DataIngestion:
     def __init__(self, data_ingestion_config:DataIngestionConfig):
         try:
-            self.data_ingestion_config = data_ingestion_config.database_name
+            self.data_ingestion_config = data_ingestion_config
         except Exception as e:
             raise NetworkSecurityException(e,sys)
         
@@ -87,7 +87,7 @@ class DataIngestion:
         try:
             dataframe=self.export_collection_as_dataframe()
             dataframe=self.export_data_into_feature_store(dataframe)
-            self.split_data_as_train_test(dataframe=dataframe)
+            self.split_data_into_train_test(dataframe=dataframe)
             
             data_ingestion_artifact = DataIngestionArtifact(
                 trained_file_path=self.data_ingestion_config.training_file_path,
